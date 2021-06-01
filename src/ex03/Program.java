@@ -8,32 +8,50 @@ public class Program {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		String inputWeek = scanner.nextLine();
-		String buffer = "";
 		int weekNum = 1;
-		int minGrade;
+		long allGrades = 0;
 
-		while (weekNum <= 18) {
-			if (inputWeek.equals(TERMINATOR)) {
-				break;
-			} else if (!inputWeek.equals(WEEK_TEXT + weekNum)) {
+		while (weekNum <= 18 && !inputWeek.equals(TERMINATOR)) {
+			if (!inputWeek.equals(WEEK_TEXT + weekNum)) {
 				System.exit(putIllegalArgument());
 			}
-			minGrade = getMinGrade(scanner);
-			buffer += inputWeek + " " + makeGraph(minGrade) + "\n";
+			allGrades = packGrade(getMinGrade(scanner), allGrades, weekNum);
 			weekNum++;
 			inputWeek = scanner.nextLine();
 		}
-		System.out.println(buffer);
+		for (int i = 1; i < weekNum; i++) {
+			System.out.print(WEEK_TEXT + i + " ");
+			putGraph(unpackGrade(i, allGrades));
+		}
 	}
 
-	private static String makeGraph(int minGrade) {
-		String ret = "";
+	public static long packGrade(int minGrade, long allGrades, int index) {
+		long ret;
+		long powTen = 1;
+
+		for (int i = 1; i < index; i++) {
+			powTen *= 10;
+		}
+		ret = allGrades + (minGrade * powTen);
+		return (ret);
+	}
+
+	public static int unpackGrade(int index, long allGrades)	{
+		int ret;
+
+		for (int i = 1; i < index; i++) {
+			allGrades /= 10;
+		}
+		ret = (int)(allGrades % 10);
+		return (ret);
+	}
+
+	private static void putGraph(int minGrade) {
 
 		for (int i = 0; i < minGrade; i++) {
-			ret += "=";
+			System.out.print("=");
 		}
-		ret += ">";
-		return (ret);
+		System.out.println(">");
 	}
 
 	private static int getMinGrade(Scanner scanner) {
