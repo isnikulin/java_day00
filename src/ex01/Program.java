@@ -13,6 +13,8 @@ public class Program {
 
 		if (input <= 1) {
 			exit_code = putIllegalArgument();
+		} else if (input == 2)	{
+			System.out.println(isInputPrime + " " + 1);
 		} else {
 			sqrt = mySqrt(input);
 			for (int i = 2; i <= sqrt + 1; i++) {

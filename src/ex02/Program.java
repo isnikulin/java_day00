@@ -31,6 +31,8 @@ public class Program {
 
 		if (num <= 1)	{
 			return (false);
+		} else if (num == 2) {
+			return (true);
 		}
 		sqrt = mySqrt(num);
 		for (int i = 2; i <= sqrt + 1; i++) {
